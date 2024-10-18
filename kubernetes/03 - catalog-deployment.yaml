@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: catalog-service
+  name: catalog-service
+  namespace: cs3219
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: catalog-service
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: catalog-service
+    spec:
+      containers:
+      - image: ginloy/catalog-service:1.0.0
+        imagePullPolicy: IfNotPresent
+        name: catalog-service
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cs3219-db
+  namespace: cs3219
+spec:
+  serviceName: cs3219-db
+  selector:
+    matchLabels:
+      app: cs3219-db
+  template:
+    metadata:
+      labels:
+        app: cs3219-db
+    spec:
+      containers:
+        - name: cs3219-db
+          image: ginloy/mariadb:1.0.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+            - name: MYSQL_DATABASE
+              value: cs3219
+          ports:
+            - containerPort: 3306
+              name: cs3219-db
